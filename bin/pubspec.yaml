@@ -1,0 +1,4 @@
+name: args_dart
+description: A sample command-line application
+dependencies:
+  args: any

@@ -18,6 +18,10 @@ cmd="$ANA"
 echo
 echo "Type Analysis, running dart_analyzer..."
 
+# Run pub.
+pub_result=`pushd bin && pub install && popd`
+cmd="$ANA --package-root bin/packages"
+
 # Loop through each Dart file in this code directory.
 files="bin/*.dart"
 for file in $files
