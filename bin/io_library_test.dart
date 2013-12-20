@@ -5,6 +5,10 @@ import 'dart:convert';
 
 WebSocket ws;
 
+handleMsg(string) {
+  print(string);
+}
+
 main() {
 
 File myFile = new File('myFile.txt');
@@ -27,6 +31,25 @@ Process.start('ls', ['-R', 'web']).then((process) {
   process.exitCode.then(print);
 });
 
+runZoned(() {
+  HttpServer.bind('127.0.0.1', 4040).then((server) {
+    server.listen((HttpRequest req) {
+      if (req.uri.path == '/ws') {
+        WebSocketTransformer.upgrade(req).then((socket) {
+          socket.listen(handleMsg);
+        });
+      }
+    });
+  });
+},
+onError: (e) => print("An error occurred."));
+
+
+WebSocket.connect('ws://127.0.0.1:4040/ws').then((socket) {
+  socket.add('Hello, World!');
+ });
+
+
 
 ServerSocket.bind('127.0.0.1', 4041)
   .then((serverSocket) {
@@ -42,8 +65,4 @@ stdout.writeln('Hello, World!');
 stderr.writeAll([ 'That ', 'is ', 'an ', 'error.', '\n']);
  String inputText = stdin.readLineSync();
 
-}
-
-outputMsg(aStr) {
-  print(aStr);
 }

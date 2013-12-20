@@ -19,6 +19,7 @@ stream.transform(UTF8.decoder)
       });
   asciiTest();
   jsonTest();
+  latinTest();
   utf8Test;
 }
 
@@ -33,6 +34,13 @@ jsonTest() {
 var encoded = JSON.encode([1, 2, { "a": null }]);
 var decoded = JSON.decode('["foo", { "bar": 499 }]');
 }
+
+latinTest(){
+var encoded = LATIN1.encode("blåbærgrød");
+var decoded = LATIN1.decode([0x62, 0x6c, 0xe5, 0x62, 0xe6,
+                             0x72, 0x67, 0x72, 0xf8, 0x64]);
+}
+
 
 utf8Test() {
 var encoded = UTF8.encode("Îñţérñåţîöñåļîžåţîờñ");
